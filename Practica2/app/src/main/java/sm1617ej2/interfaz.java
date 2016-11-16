@@ -2,23 +2,49 @@ package sm1617ej2;
 
 /**Created on 13/11/2016.
  * @author Alejandro Romo Rivero.
- * Se crea la interfaz: Como es una interfaz es un conjunto abstracto de forma que cuando implementemos en una clase la interfaz se nos
- * exigira crear estos métodos e inicializarlos, sacando los valores que se les pasan a los métodos y luego realizando cada una de las
- * tareas para la que están pensado los métodos. Y finalmente tras el proceso que se debe realizar en cada método se deberá devolver
- * por medio del return el valor o cadena que debe devolver cada método.
+ */
+
+/**
+ * Creacion de la interfaz: Como es una interfaz es un conjunto abstracto de forma que cuando implementemos en una clase la interfaz se nos
+ * exigira crear estos metodos e inicializarlos, sacando los valores que se les pasan a los metodos y luego realizando cada una de las
+ * tareas para la que estan pensado los metodos. Y finalmente tras el proceso que se debe realizar en cada metodo se debera devolver
+ * por medio del return el valor o cadena que debe devolver cada metodo.
  */
 public interface interfaz {
-    //Método Modificar al cual le paso el nombreproducto, proveedor, identificador, valor actual y valor mínimo para que el usurio pueda
-    //modificar lo que desee y luego sea guardado y por ello me devuelve una cadena con la modificación realizada que se guardará.
-    public String Modificar(String nombreproducto,String proveedor,int identificador,int valoractual,int valorminimo);
 
-    //Método Eliminar al cual le paso el nombreproducto, proveedor, identificador, valor actual y valor mínimo para que el usurio elimine lo que
-    //ha seleccionado y será un método Boolean ya que debemos confirmar que se ha eliminado sin error el producto seleccionado por el
-    //usuario.
+    /**
+     * Metodo Modificar: Permitira al usuario modificar el producto deseado. Y me devolvera un Booleano para saber si se ha modificado.
+     * @param nombreproducto
+     * @param proveedor
+     * @param identificador
+     * @param valoractual
+     * @param valorminimo
+     * @return modificacion
+     */
+    public Boolean Modificar(String nombreproducto,String proveedor,int identificador,int valoractual,int valorminimo);
+
+    /**
+     * Metodo Eliminar: Permitira al usuario eliminar el producto deseado. Me devolvera un Booleano para saber si se ha eliminado el
+     * producto.
+     * @param nombreproducto
+     * @param proveedor
+     * @param identificador
+     * @param valoractual
+     * @param valorminimo
+     * @return eliminado
+     */
     public Boolean Eliminar(String nombreproducto,String proveedor,int identificador,int valoractual,int valorminimo);
 
-    //Método Introducir al cual le paso el nombreproducto, proveedor, identificador, valor actual y valor mínimo que quiere añadir el usuario a su
-    //control del stock. Me devolverá una cadena con lo introducido por parte del usuario para guardarlo.
-    public String Introducir(String nombreproducto,String proveedor,int identificador,int valoractual,int valorminimo);
+    /**
+     * Metodo Introducir: Permitira al usuario introducir un nuevo producto. Me devolvera un Booleano para saber si se ha introducido el
+     * producto.
+     * @param nombreproducto
+     * @param proveedor
+     * @param identificador
+     * @param valoractual
+     * @param valorminimo
+     * @return introducido
+     */
+    public Boolean Introducir(String nombreproducto,String proveedor,int identificador,int valoractual,int valorminimo);
 
 }//Cierro la interfaz.
