@@ -12,6 +12,11 @@ import android.support.v7.app.AppCompatActivity; //Importamos este paquete para 
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.Socket;
 
@@ -36,21 +41,75 @@ public class ConexActivity extends AppCompatActivity {
             //Toast.makeText(this, "Contraseña: "+pass, Toast.LENGTH_SHORT).show();
             //Toast.makeText(this, "Dirección IP: "+ip, Toast.LENGTH_SHORT).show();
             //Toast.makeText(this, "Puerto: "+port, Toast.LENGTH_SHORT).show();
+
+            /**
+             * Creo un objeto autentica de la clase Autenticacion al cual le paso los datos que he recibido del intent, luego se crea
+             * un objeto conecta de la clase Conexion, para finalmente pasarle al objeto conecta el objeto autentica que contiene los
+             * datos introducidos por el usuario y con execute(); envio datos directamente a doInBackground().
+             */
+            Autenticacion autentica = new Autenticacion(user,pass,ip,port);
+            Conexion conecta = new Conexion();
+            conecta.execute(autentica);
         }//Fin del if.
     }//Fin del onCreate.
 
-    //Creo una clase conectar que con los datos que el usuario ha introducido en el fragmento y enviado durante el login, y a través de una
-    //tarea asíncrona y con el uso de Sockets TCP me permitirá conectar con un servidor y recibir una respuesta de este.
-    //TODO seguir con ejemplo 9.
-    public class conectar extends AsyncTask<InetSocketAddress, Void, String> {
+    /**
+     * Creo una clase Conexion que con los datos que el usuario ha introducido en el fragmento y enviado durante el login, y a través de una
+     * tarea asíncrona y con el uso de Sockets TCP me permitirá conectar con un servidor y recibir una respuesta de este.
+     * AsynTask<Autenticacion...>-> Se le pasa este primer valor.
+     */
+    public class Conexion extends AsyncTask<Autenticacion, Void, String> {
+
         @Override
-        protected String doInBackground(InetSocketAddress... arg0){
-            Socket cliente = null;//Creo e inicializo una variable cliente de tipo Socket.
-            String respuesta=null;//Creo e inicializo una variable respuesta que será la que obtenga del servidor de tipo Socket.
+        protected void onPreExecute(){
+            super.onPreExecute();
+        }//Fin onPreExecute.
 
-            return respuesta;
+        @Override
+        protected String doInBackground(Autenticacion... arg0){
+            Socket cliente   = null;//Creo e inicializo una variable cliente de tipo Socket.
+            String respuesta = null;//Creo e inicializo una variable respuesta que sera la que obtenga del servidor de tipo Socket.
+            String sesionid  = null;//Creo e inicializo una variable sesionid que sera donde se guarde la respuesta con la sesion.
+            try {
+
+                String IP   = arg0[0].getIP();    //Saco de mi array arg0 el primer valor que se corresponde con la direccion IP.
+                int    Port = arg0[3].getPort();  //Saco de mi array arg0 el cuarto valor que se corresponde con el Puerto.
+                InetSocketAddress direccion = new InetSocketAddress(IP,Port); //Creo el objeto direccion de tipo InetSocketAddress que contiene la direccon IP y el Puerto.
+                //Se crea el socket TCP y me conecto al servidor con la direccion TCP y el puerto.
+                cliente = new Socket();
+                cliente.connect(direccion);
+                //Se leen los datos del buffer de entrada
+                BufferedReader bis = new BufferedReader(new InputStreamReader(cliente.getInputStream()));
+                OutputStream os = cliente.getOutputStream();
+                //Le metemos "USER USER" para ver la respuesta correspondiente del servidor-TCP.
+                os.write(new String("USER USER").getBytes());
+                os.flush();
+                respuesta = bis.readLine();
+                //Le metemos "PASS 12345" para ver la respuesta correspondiente del servidor-TCP.
+                os.write(new String("PASS 12345").getBytes());
+                os.flush();
+                respuesta = bis.readLine();
+                sesionid=respuesta;
+                //Le metemos "QUIT".
+                os.write(new String("QUIT").getBytes());
+                os.flush();
+                respuesta = bis.readLine();
+                bis.close();
+                os.close();
+                cliente.close();
+
+            } catch (IOException err){ //Fin del try y captura de la excepción.
+             err.printStackTrace();
+             respuesta = "IOException: " + err.toString(); //Saco como respuesta el error que se ha producido.
+            }//Fin del catch.
+            return respuesta; //Devuelvo lo almacenado en la variable respuesta.
+        }//Fin doInBackground.
+
+        @Override
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
         }
-    }
 
+    }//Fin AsynTask.
 
 }//Fin del ConexActivity.
