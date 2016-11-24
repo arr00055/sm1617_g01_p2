@@ -101,7 +101,7 @@ public class ConexActivity extends AppCompatActivity {
                     //editor.putString(sesionid, "");
                     //editor.commit();
                     //En caso de ir bien, estar autenticado y la sesion id aun activa se lanza una nueva actividad donde se recibe
-                    //el servicio. En caso de no ser así, se debe lanzar un error y pedir de nuevo las credenciales. 
+                    //el servicio. En caso de no ser así, se debe lanzar un error y pedir de nuevo las credenciales.
                     bis.close();
                     os.close();
                     cliente.close();
