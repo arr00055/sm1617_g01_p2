@@ -7,7 +7,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="es.ujaen.git.practica1.MainActivity">
+    tools:context="es.ujaen.git.practica2.MainActivity">
 
     <TextView
         android:layout_width="wrap_content"
@@ -23,5 +23,5 @@
         android:layout_height="match_parent"
         android:layout_below="@+id/textView"
         android:id="@+id/main_frame"
-        android:background="@android:color/holo_blue_bright"></FrameLayout>
+        android:background="@android:color/holo_red_light"></FrameLayout>
 </RelativeLayout>

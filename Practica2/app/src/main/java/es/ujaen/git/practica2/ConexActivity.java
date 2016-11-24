@@ -7,12 +7,12 @@ package es.ujaen.git.practica2;
  * @param puerto      el puerto que introduce el usuario en la interfaz.
  */
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity; //Importamos este paquete para la compatibilidad con API inferiores.
 import android.os.Bundle;
-import android.view.View;
-import android.widget.Toast;
-
+import android.util.Log;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -36,11 +36,6 @@ public class ConexActivity extends AppCompatActivity {
             String pass = bundle.getString("password");    //Extraigo del bundle la cadena de String con id password a través del getString.
             String ip   = bundle.getString("direccionIp"); //Extraigo del bundle la cadena de String con id direccionIp a través del getString.
             int port    = bundle.getInt("puerto");         //Extraigo del bundle la cadena del Int con id puerto a través del getInt.
-            //Toast para ver que llegan los datos y se guardan en sus variables correspondientes.
-            //Toast.makeText(this, "Nombre: "+user, Toast.LENGTH_SHORT).show();
-            //Toast.makeText(this, "Contraseña: "+pass, Toast.LENGTH_SHORT).show();
-            //Toast.makeText(this, "Dirección IP: "+ip, Toast.LENGTH_SHORT).show();
-            //Toast.makeText(this, "Puerto: "+port, Toast.LENGTH_SHORT).show();
 
             /**
              * Creo un objeto autentica de la clase Autenticacion al cual le paso los datos que he recibido del intent, luego se crea
@@ -58,7 +53,7 @@ public class ConexActivity extends AppCompatActivity {
      * tarea asíncrona y con el uso de Sockets TCP me permitirá conectar con un servidor y recibir una respuesta de este.
      * AsynTask<Autenticacion...>-> Se le pasa este primer valor.
      */
-    public class Conexion extends AsyncTask<Autenticacion, Void, String> {
+    public class Conexion extends AsyncTask<Autenticacion, String, String> {
 
         @Override
         protected void onPreExecute(){
@@ -73,31 +68,44 @@ public class ConexActivity extends AppCompatActivity {
             try {
 
                 String IP   = arg0[0].getIP();    //Saco de mi array arg0 el primer valor que se corresponde con la direccion IP.
-                int    Port = arg0[3].getPort();  //Saco de mi array arg0 el cuarto valor que se corresponde con el Puerto.
+                int    Port = arg0[0].getPort();  //Saco de mi array arg0 el cuarto valor que se corresponde con el Puerto.
                 InetSocketAddress direccion = new InetSocketAddress(IP,Port); //Creo el objeto direccion de tipo InetSocketAddress que contiene la direccon IP y el Puerto.
                 //Se crea el socket TCP y me conecto al servidor con la direccion TCP y el puerto.
                 cliente = new Socket();
                 cliente.connect(direccion);
+                if(cliente != null){
                 //Se leen los datos del buffer de entrada
                 BufferedReader bis = new BufferedReader(new InputStreamReader(cliente.getInputStream()));
                 OutputStream os = cliente.getOutputStream();
-                //Le metemos "USER USER" para ver la respuesta correspondiente del servidor-TCP.
-                os.write(new String("USER USER").getBytes());
-                os.flush();
-                respuesta = bis.readLine();
-                //Le metemos "PASS 12345" para ver la respuesta correspondiente del servidor-TCP.
-                os.write(new String("PASS 12345").getBytes());
-                os.flush();
-                respuesta = bis.readLine();
-                sesionid=respuesta;
-                //Le metemos "QUIT".
-                os.write(new String("QUIT").getBytes());
-                os.flush();
-                respuesta = bis.readLine();
-                bis.close();
-                os.close();
-                cliente.close();
-
+                //Si se me ha creado el socket.
+                    //Le metemos "USER USER" para ver la respuesta correspondiente del servidor-TCP.
+                    os.write(new String("USER USER\r\n").getBytes());
+                    os.flush();
+                    respuesta = bis.readLine();
+                    Log.d("Mensaje Bienvenida", respuesta);
+                    //Le metemos "PASS 12345" para ver la respuesta correspondiente del servidor-TCP.
+                    os.write(new String("PASS 12345\r\n").getBytes());
+                    os.flush();
+                    respuesta = bis.readLine();
+                    sesionid = respuesta;
+                    Log.d("Sesionid:", sesionid);
+                    //Le metemos "QUIT".
+                    os.write(new String("QUIT").getBytes());
+                    os.flush();
+                    respuesta = bis.readLine();
+                    Log.d("Tras Quit", respuesta);
+                    //Preferencias donde guardo los datos, deberé trocear la sesionid para sacar el Id y la fecha como un entero
+                    //para la comprobación de sesión.
+                    //SharedPreferences prefs = getSharedPreferences("DatosSesion", Context.MODE_PRIVATE);
+                    //SharedPreferences.Editor editor = prefs.edit();
+                    //editor.putString(sesionid, "");
+                    //editor.commit();
+                    //En caso de ir bien, estar autenticado y la sesion id aun activa se lanza una nueva actividad donde se recibe
+                    //el servicio. En caso de no ser así, se debe lanzar un error y pedir de nuevo las credenciales. 
+                    bis.close();
+                    os.close();
+                    cliente.close();
+                }//Fin de la comprobación socket no nullo.
             } catch (IOException err){ //Fin del try y captura de la excepción.
              err.printStackTrace();
              respuesta = "IOException: " + err.toString(); //Saco como respuesta el error que se ha producido.
