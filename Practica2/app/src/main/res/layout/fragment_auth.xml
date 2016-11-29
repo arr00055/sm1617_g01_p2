@@ -13,7 +13,8 @@
         android:text="@string/auth_name"
         android:id="@+id/auth_label_user"
         android:layout_alignParentTop="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        />
 
     <EditText
         android:layout_width="wrap_content"

@@ -67,8 +67,10 @@ public class ConexActivity extends AppCompatActivity {
             String sesionid  = null;//Creo e inicializo una variable sesionid que sera donde se guarde la respuesta con la sesion.
             try {
 
-                String IP   = arg0[0].getIP();    //Saco de mi array arg0 el primer valor que se corresponde con la direccion IP.
-                int    Port = arg0[0].getPort();  //Saco de mi array arg0 el cuarto valor que se corresponde con el Puerto.
+                String User = arg0[0].getUser();  //Saco de mi array arg0 el valor que se corresponde con el usuario.
+                String Pass = arg0[0].getPass();  //Saco de mi array arg0 el valor que se corresponde con la password.
+                String IP   = arg0[0].getIP();    //Saco de mi array arg0 el valor que se corresponde con la direccion IP.
+                int    Port = arg0[0].getPort();  //Saco de mi array arg0 el valor que se corresponde con el Puerto.
                 InetSocketAddress direccion = new InetSocketAddress(IP,Port); //Creo el objeto direccion de tipo InetSocketAddress que contiene la direccon IP y el Puerto.
                 //Se crea el socket TCP y me conecto al servidor con la direccion TCP y el puerto.
                 cliente = new Socket();
@@ -79,12 +81,12 @@ public class ConexActivity extends AppCompatActivity {
                 OutputStream os = cliente.getOutputStream();
                 //Si se me ha creado el socket.
                     //Le metemos "USER USER" para ver la respuesta correspondiente del servidor-TCP.
-                    os.write(new String("USER USER\r\n").getBytes());
+                    os.write(new String("USER "+User+"\r\n").getBytes());
                     os.flush();
                     respuesta = bis.readLine();
                     Log.d("Mensaje Bienvenida", respuesta);
                     //Le metemos "PASS 12345" para ver la respuesta correspondiente del servidor-TCP.
-                    os.write(new String("PASS 12345\r\n").getBytes());
+                    os.write(new String("PASS "+Pass+"\r\n").getBytes());
                     os.flush();
                     respuesta = bis.readLine();
                     sesionid = respuesta;
