@@ -41,7 +41,8 @@
         android:layout_toEndOf="@+id/auth_label_ip"
         android:layout_marginStart="10dp"
         android:hint="@string/auth_hint_pass"
-        android:inputType="textPassword" />
+        android:inputType="textPassword"/>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -78,7 +79,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/auth_edit_port"
-            android:layout_marginStart="70dp"
+            android:layout_marginStart="65dp"
             android:hint="@string/auth_hint_port"
             android:inputType="number" />
     </LinearLayout>

@@ -2,13 +2,13 @@
 <resources>
     <string name="app_name">HosteRed</string>
     <string name="auth_name">Nombre:</string>
-    <string name="auth_hint_user">Escriba su Usuario</string>
+    <string name="auth_hint_user">Introduzca Usuario</string>
     <string name="auth_pass">Clave:</string>
     <string name="auth_ip">Dirección IP:</string>
-    <string name="auth_hint_pass">Escriba su Clave</string>
+    <string name="auth_hint_pass">Coloque Clave</string>
     <string name="auth_hint_ip">Dirección del Servidor</string>
     <string name="auth_port">Puerto:</string>
-    <string name="auth_hint_port">Escriba el Puerto</string>
+    <string name="auth_hint_port">Puerto del Servidor</string>
     <string name="auth_enviar">Enviar</string>
     <string name="conex_greeting">Bienvenido.</string>
 </resources>

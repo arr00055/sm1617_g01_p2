@@ -80,22 +80,21 @@ public class ConexActivity extends AppCompatActivity {
                 BufferedReader bis = new BufferedReader(new InputStreamReader(cliente.getInputStream()));
                 OutputStream os = cliente.getOutputStream();
                 //Si se me ha creado el socket.
-                    //Le metemos "USER USER" para ver la respuesta correspondiente del servidor-TCP.
-                    os.write(new String("USER "+User+"\r\n").getBytes());
+                    //Le metemos "USER USER" para ver la respuesta correspondiente del servidor-
+                    os.write(new String("USER USER\r\n").getBytes());
                     os.flush();
                     respuesta = bis.readLine();
-                    Log.d("Mensaje Bienvenida", respuesta);
+                    Log.d("Usuario", respuesta);
                     //Le metemos "PASS 12345" para ver la respuesta correspondiente del servidor-TCP.
-                    os.write(new String("PASS "+Pass+"\r\n").getBytes());
+                    os.write(new String("PASS 12345\r\n").getBytes());
                     os.flush();
                     respuesta = bis.readLine();
-                    sesionid = respuesta;
-                    Log.d("Sesionid:", sesionid);
+                    Log.d("Pass", respuesta);
                     //Le metemos "QUIT".
                     os.write(new String("QUIT").getBytes());
                     os.flush();
                     respuesta = bis.readLine();
-                    Log.d("Tras Quit", respuesta);
+                    Log.d("Quit", respuesta);
                     //Preferencias donde guardo los datos, deberé trocear la sesionid para sacar el Id y la fecha como un entero
                     //para la comprobación de sesión.
                     //SharedPreferences prefs = getSharedPreferences("DatosSesion", Context.MODE_PRIVATE);

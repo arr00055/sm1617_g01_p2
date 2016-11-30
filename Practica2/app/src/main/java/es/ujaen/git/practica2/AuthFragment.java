@@ -104,11 +104,6 @@ public class AuthFragment extends Fragment {
                 String port1  = mEditPort.getText().toString(); //Convierto el editable de EditUser en un string port1
                 int port      = Integer.parseInt(port1);        //Paso de un string port1 a un entero port.
                 Autenticacion datos = new Autenticacion(user,pass,ip,port);//Introduzco las variables en la clase Autenticacion al instanciarla.
-                //Muestro unos mensajes para comprobar que funciona.
-                //Toast.makeText(getActivity(), "Nombre: "+datos.getUser(), Toast.LENGTH_SHORT).show();
-                //Toast.makeText(getActivity(), "Contraseña: "+datos.getPass(), Toast.LENGTH_SHORT).show();
-                //Toast.makeText(getActivity(), "IP: "+datos.getIP(), Toast.LENGTH_SHORT).show();
-                //Toast.makeText(getActivity(), "Puerto: "+datos.getPort(), Toast.LENGTH_SHORT).show();
                 //Utilizo un intent para realizar transición de fragmento a Actividad pasando los datos para ello.
                     Intent i = new Intent(getActivity(), ConexActivity.class);//Tomo el fragmento actual, la actividad a la que quiero ir.
                     i.putExtra("usuario", user);//paso el valor de user con id usuario.
