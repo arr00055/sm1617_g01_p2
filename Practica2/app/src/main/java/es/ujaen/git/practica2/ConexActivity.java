@@ -75,12 +75,14 @@ public class ConexActivity extends AppCompatActivity {
                 //Se crea el socket TCP y me conecto al servidor con la direccion TCP y el puerto.
                 cliente = new Socket();
                 cliente.connect(direccion);
-                if(cliente != null){
+
                 //Se leen los datos del buffer de entrada
                 BufferedReader bis = new BufferedReader(new InputStreamReader(cliente.getInputStream()));
                 OutputStream os = cliente.getOutputStream();
-                //Si se me ha creado el socket.
+                     //Si se me ha creado el socket.
                     //Le metemos "USER USER" para ver la respuesta correspondiente del servidor-
+                     respuesta = bis.readLine();
+                     Log.d("Saludo", respuesta);
                     os.write(new String("USER USER\r\n").getBytes());
                     os.flush();
                     respuesta = bis.readLine();
@@ -106,7 +108,7 @@ public class ConexActivity extends AppCompatActivity {
                     bis.close();
                     os.close();
                     cliente.close();
-                }//Fin de la comprobación socket no nullo.
+
             } catch (IOException err){ //Fin del try y captura de la excepción.
              err.printStackTrace();
              respuesta = "IOException: " + err.toString(); //Saco como respuesta el error que se ha producido.
