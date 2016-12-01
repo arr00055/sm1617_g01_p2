@@ -18,7 +18,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ConexActivity"></activity>
+        <activity android:name=".ConexActivity" />
+        <activity android:name=".Servicio"></activity>
     </application>
 
 </manifest>

@@ -7,6 +7,7 @@ package es.ujaen.git.practica2;
  * @param puerto      el puerto que introduce el usuario en la interfaz.
  */
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -64,7 +65,7 @@ public class ConexActivity extends AppCompatActivity {
         protected String doInBackground(Autenticacion... arg0){
             Socket cliente   = null;//Creo e inicializo una variable cliente de tipo Socket.
             String respuesta = null;//Creo e inicializo una variable respuesta que sera la que obtenga del servidor de tipo Socket.
-            String sesionid  = null;//Creo e inicializo una variable sesionid que sera donde se guarde la respuesta con la sesion.
+            String id        = null;
             try {
 
                 String User = arg0[0].getUser();  //Saco de mi array arg0 el valor que se corresponde con el usuario.
@@ -72,6 +73,7 @@ public class ConexActivity extends AppCompatActivity {
                 String IP   = arg0[0].getIP();    //Saco de mi array arg0 el valor que se corresponde con la direccion IP.
                 int    Port = arg0[0].getPort();  //Saco de mi array arg0 el valor que se corresponde con el Puerto.
                 InetSocketAddress direccion = new InetSocketAddress(IP,Port); //Creo el objeto direccion de tipo InetSocketAddress que contiene la direccon IP y el Puerto.
+
                 //Se crea el socket TCP y me conecto al servidor con la direccion TCP y el puerto.
                 cliente = new Socket();
                 cliente.connect(direccion);
@@ -79,35 +81,68 @@ public class ConexActivity extends AppCompatActivity {
                 //Se leen los datos del buffer de entrada
                 BufferedReader bis = new BufferedReader(new InputStreamReader(cliente.getInputStream()));
                 OutputStream os = cliente.getOutputStream();
-                //Si se me ha creado el socket.
-                //Le metemos "USER USER" para ver la respuesta correspondiente del servidor-
+
+                //Recibimos el mensaje de saludo del servidor.
                 respuesta = bis.readLine();
                 Log.d("Saludo", respuesta);
-                os.write(new String("USER USER\r\n").getBytes());
+
+                //Le metemos "USER USER" para ver la respuesta correspondiente del servidor.
+                os.write(new String("USER "+User+"\r\n").getBytes());
                 os.flush();
                 respuesta = bis.readLine();
                 Log.d("Usuario", respuesta);
+
                 //Le metemos "PASS 12345" para ver la respuesta correspondiente del servidor-TCP.
-                os.write(new String("PASS 12345\r\n").getBytes());
+                os.write(new String("PASS "+Pass+"\r\n").getBytes());
                 os.flush();
-                respuesta = bis.readLine();
-                Log.d("Pass", respuesta);
+                id = bis.readLine();
+                Log.d("Pass", id);
+
+                //Si recibo una sesionid que no es nullo y empieza por OK se ha autenticado, y se colocará un TextView en el cual
+                //aparecerá este mensaje que será sacado por onPostExecute();
+                //if (sesionid != null) {
+                    //if (sesionid.startsWith("OK"))
+                        //sesionid = "Autenticado correctamente";
+                    //else {
+                        //sesionid = "Error de autenticación";
+                    //}
+                //}
+                //SESION-ID=SIDUSERMTIzNDU=&EXPIRES=2016-12-01-12-38-22
+                //String[] parts = sesionid.split("&");
+                //sesionid = parts[0].split("SESION-ID=");
+                //expira    = parts[1].split("EXPIRES=");
+                //sesionid = parts[0]; //
+                //String part2 = parts[1]; //
+
+                String [] sesionid = null;//Creo e inicializo una variable sesionid que sera donde se guarde la respuesta con la sesion.
+                String [] expira   = null;//Creo e inicializo una variable expira que sera donde se guarde el tiempo de sesion.
+                String [] linea    = null;//Creo e inicializo la variable linea para realizar la separacion con split que me envia el
+                                          //servidor y he guardado en la variable id.
+
+                linea = id.split("&");         //Separo por &
+                sesionid = linea[0].split("=");//Separo por = y guardo la primera linea de la separacion que contiene la sesionid.
+                Log.d("Sesionid", sesionid[1]);
+                expira  = linea[1].split("="); //Separo por = y guardo la segunda linea de la separacion que contiene la expira.
+                Log.d("Expira", expira[1]);
+
                 //Le metemos "QUIT".
                 os.write(new String("QUIT\r\n").getBytes());
                 os.flush();
                 respuesta = bis.readLine();
                 Log.d("Quit", respuesta);
-                //Preferencias donde guardo los datos, deberé trocear la sesionid para sacar el Id y la fecha como un entero
-                //para la comprobación de sesión.
-                //SharedPreferences prefs = getSharedPreferences("DatosSesion", Context.MODE_PRIVATE);
-                //SharedPreferences.Editor editor = prefs.edit();
-                //editor.putString(sesionid, "");
-                //editor.commit();
-                //En caso de ir bien, estar autenticado y la sesion id aun activa se lanza una nueva actividad donde se recibe
-                //el servicio. En caso de no ser así, se debe lanzar un error y pedir de nuevo las credenciales.
                 bis.close();
                 os.close();
                 cliente.close();
+
+                //Preferencias donde guardo los datos, deberé trocear la sesionid para sacar el Id y la fecha como un entero
+                //para la comprobación de sesión.
+                SharedPreferences prefs = getSharedPreferences("DatosSesion", Context.MODE_PRIVATE);
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putString("Sesion",sesionid[1]);
+                editor.putString("Tiempoexpira",expira[1]);
+                editor.commit();
+                //En caso de ir bien, estar autenticado y la sesion id aun activa se lanza una nueva actividad donde se recibe
+                //el servicio. En caso de no ser así, se debe lanzar un error y pedir de nuevo las credenciales.
 
             } catch (IOException err){ //Fin del try y captura de la excepción.
              err.printStackTrace();

@@ -3,12 +3,18 @@ package es.ujaen.git.practica2;
  * que se contiene el fragmento dinámico.
  */
 //Importamos los paquetes de compatibilidad para poder hacer uso de la clase Fragment y sus métodos.
-import android.os.AsyncTask;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 //La clase MainActivity hereda de AppCompatActivity.
 public class MainActivity extends AppCompatActivity {
@@ -18,6 +24,27 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);     //Se llama a la superclase primero.
         setContentView(R.layout.activity_main); //Pinto el layout relacionado con mi MainActivity.
+        //Leo mi preferencia prefs, y si sesionid alberga algo salta el if y compruebo el tiempo, en caso de estar dentro del rango
+        //de la Autenticacion lo lanzo a la actividad del servicio, si no, dejo que siga como siempre.
+        SharedPreferences prefs = getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
+        String sesionid = prefs.getString("Sesion","");
+
+        if (sesionid.length()>0){
+            //El usuario ya tiene algo guardado.
+            String expires = prefs.getString("Tiempoexpira","");
+            long fecha = System.currentTimeMillis()-3600000;
+            SimpleDateFormat dt1 = new SimpleDateFormat("yyyy-MM-dd-H-m-s");
+            try{
+                Date iniciosesion = dt1.parse(expires);
+                   long t=iniciosesion.getTime();
+                    if(t > fecha){
+                    Intent a = new Intent(this, Servicio.class);
+                    startActivity(a);//Realizar la transición intent con identificador i.
+                   }
+                   }catch(ParseException p){
+                                            }
+        }
+
 
         FragmentManager fm = getSupportFragmentManager();//Obtener la instancia del administrador de fragmentos.
         FragmentTransaction ft = fm.beginTransaction();  //Creo una nueva transacción.
