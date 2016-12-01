@@ -14,6 +14,7 @@
         android:id="@+id/auth_label_user"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
+        android:textColor="@android:color/black"
         />
 
     <EditText
@@ -32,6 +33,7 @@
         android:text="@string/auth_pass"
         android:id="@+id/auth_label_pass"
         android:layout_below="@+id/auth_label_user"
+        android:textColor="@android:color/black"
         android:layout_marginTop="@dimen/activity_vertical_margin"/>
     <EditText
         android:layout_width="wrap_content"
@@ -50,6 +52,7 @@
         android:text="@string/auth_ip"
         android:id="@+id/auth_label_ip"
         android:layout_below="@+id/auth_label_pass"
+        android:textColor="@android:color/black"
         android:layout_marginTop="@dimen/activity_vertical_margin"/>
     <EditText
         android:layout_width="wrap_content"
@@ -73,6 +76,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="@string/auth_port"
+            android:textColor="@android:color/black"
             android:id="@+id/auth_label_port" />
 
         <EditText
@@ -86,6 +90,10 @@
 
     <Button
         android:text="@string/auth_enviar"
+        android:drawableLeft="@drawable/silverware_variant"
+        android:drawablePadding="8dp"
+        android:textColor="@android:color/white"
+        android:backgroundTint="#ef9a9a"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/auth_button_send"

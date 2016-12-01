@@ -5,7 +5,7 @@
     <string name="auth_hint_user">Introduzca Usuario</string>
     <string name="auth_pass">Clave:</string>
     <string name="auth_ip">Dirección IP:</string>
-    <string name="auth_hint_pass">Coloque Clave</string>
+    <string name="auth_hint_pass">Introduzca Clave</string>
     <string name="auth_hint_ip">Dirección del Servidor</string>
     <string name="auth_port">Puerto:</string>
     <string name="auth_hint_port">Puerto del Servidor</string>
