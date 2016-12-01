@@ -79,35 +79,35 @@ public class ConexActivity extends AppCompatActivity {
                 //Se leen los datos del buffer de entrada
                 BufferedReader bis = new BufferedReader(new InputStreamReader(cliente.getInputStream()));
                 OutputStream os = cliente.getOutputStream();
-                     //Si se me ha creado el socket.
-                    //Le metemos "USER USER" para ver la respuesta correspondiente del servidor-
-                     respuesta = bis.readLine();
-                     Log.d("Saludo", respuesta);
-                    os.write(new String("USER USER\r\n").getBytes());
-                    os.flush();
-                    respuesta = bis.readLine();
-                    Log.d("Usuario", respuesta);
-                    //Le metemos "PASS 12345" para ver la respuesta correspondiente del servidor-TCP.
-                    os.write(new String("PASS 12345\r\n").getBytes());
-                    os.flush();
-                    respuesta = bis.readLine();
-                    Log.d("Pass", respuesta);
-                    //Le metemos "QUIT".
-                    os.write(new String("QUIT").getBytes());
-                    os.flush();
-                    respuesta = bis.readLine();
-                    Log.d("Quit", respuesta);
-                    //Preferencias donde guardo los datos, deberé trocear la sesionid para sacar el Id y la fecha como un entero
-                    //para la comprobación de sesión.
-                    //SharedPreferences prefs = getSharedPreferences("DatosSesion", Context.MODE_PRIVATE);
-                    //SharedPreferences.Editor editor = prefs.edit();
-                    //editor.putString(sesionid, "");
-                    //editor.commit();
-                    //En caso de ir bien, estar autenticado y la sesion id aun activa se lanza una nueva actividad donde se recibe
-                    //el servicio. En caso de no ser así, se debe lanzar un error y pedir de nuevo las credenciales.
-                    bis.close();
-                    os.close();
-                    cliente.close();
+                //Si se me ha creado el socket.
+                //Le metemos "USER USER" para ver la respuesta correspondiente del servidor-
+                respuesta = bis.readLine();
+                Log.d("Saludo", respuesta);
+                os.write(new String("USER USER\r\n").getBytes());
+                os.flush();
+                respuesta = bis.readLine();
+                Log.d("Usuario", respuesta);
+                //Le metemos "PASS 12345" para ver la respuesta correspondiente del servidor-TCP.
+                os.write(new String("PASS 12345\r\n").getBytes());
+                os.flush();
+                respuesta = bis.readLine();
+                Log.d("Pass", respuesta);
+                //Le metemos "QUIT".
+                os.write(new String("QUIT\r\n").getBytes());
+                os.flush();
+                respuesta = bis.readLine();
+                Log.d("Quit", respuesta);
+                //Preferencias donde guardo los datos, deberé trocear la sesionid para sacar el Id y la fecha como un entero
+                //para la comprobación de sesión.
+                //SharedPreferences prefs = getSharedPreferences("DatosSesion", Context.MODE_PRIVATE);
+                //SharedPreferences.Editor editor = prefs.edit();
+                //editor.putString(sesionid, "");
+                //editor.commit();
+                //En caso de ir bien, estar autenticado y la sesion id aun activa se lanza una nueva actividad donde se recibe
+                //el servicio. En caso de no ser así, se debe lanzar un error y pedir de nuevo las credenciales.
+                bis.close();
+                os.close();
+                cliente.close();
 
             } catch (IOException err){ //Fin del try y captura de la excepción.
              err.printStackTrace();
