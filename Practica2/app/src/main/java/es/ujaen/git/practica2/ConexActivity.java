@@ -9,9 +9,10 @@ package es.ujaen.git.practica2;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity; //Importamos este paquete para la compatibilidad con API inferiores.
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import java.io.BufferedReader;
@@ -54,11 +55,17 @@ public class ConexActivity extends AppCompatActivity {
      * tarea asíncrona y con el uso de Sockets TCP me permitirá conectar con un servidor y recibir una respuesta de este.
      * AsynTask<Autenticacion...>-> Se le pasa este primer valor.
      */
-    public class Conexion extends AsyncTask<Autenticacion, String, String> {
-
+    public class Conexion extends AsyncTask<Autenticacion, Integer, String> {
+        ProgressDialog pdia = null;
         @Override
         protected void onPreExecute(){
             super.onPreExecute();
+            pdia = new ProgressDialog(ConexActivity.this);
+            pdia.setIndeterminate(true);
+            pdia.setMessage("Autenticando, espere por favor.");
+            pdia.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            pdia.setCancelable(false);
+            pdia.show();
         }//Fin onPreExecute.
 
         @Override
@@ -97,23 +104,19 @@ public class ConexActivity extends AppCompatActivity {
                 os.flush();
                 id = bis.readLine();
                 Log.d("Pass", id);
+                if (id.startsWith("ERROR")) {
+                    os.write(new String("QUIT\r\n").getBytes());
+                    os.flush();
+                    respuesta = bis.readLine();
+                    Log.d("Quit", respuesta);
+                    bis.close();
+                    os.close();
+                    cliente.close();
+                    respuesta = "ERROR";
+                    return respuesta;
+                }//Fin del if result.startsWith.
 
-                //Si recibo una sesionid que no es nullo y empieza por OK se ha autenticado, y se colocará un TextView en el cual
-                //aparecerá este mensaje que será sacado por onPostExecute();
-                //if (sesionid != null) {
-                    //if (sesionid.startsWith("OK"))
-                        //sesionid = "Autenticado correctamente";
-                    //else {
-                        //sesionid = "Error de autenticación";
-                    //}
-                //}
                 //SESION-ID=SIDUSERMTIzNDU=&EXPIRES=2016-12-01-12-38-22
-                //String[] parts = sesionid.split("&");
-                //sesionid = parts[0].split("SESION-ID=");
-                //expira    = parts[1].split("EXPIRES=");
-                //sesionid = parts[0]; //
-                //String part2 = parts[1]; //
-
                 String [] sesionid = null;//Creo e inicializo una variable sesionid que sera donde se guarde la respuesta con la sesion.
                 String [] expira   = null;//Creo e inicializo una variable expira que sera donde se guarde el tiempo de sesion.
                 String [] linea    = null;//Creo e inicializo la variable linea para realizar la separacion con split que me envia el
@@ -141,8 +144,6 @@ public class ConexActivity extends AppCompatActivity {
                 editor.putString("Sesion",sesionid[1]);
                 editor.putString("Tiempoexpira",expira[1]);
                 editor.commit();
-                //En caso de ir bien, estar autenticado y la sesion id aun activa se lanza una nueva actividad donde se recibe
-                //el servicio. En caso de no ser así, se debe lanzar un error y pedir de nuevo las credenciales.
 
             } catch (IOException err){ //Fin del try y captura de la excepción.
              err.printStackTrace();
@@ -152,10 +153,24 @@ public class ConexActivity extends AppCompatActivity {
         }//Fin doInBackground.
 
         @Override
-        protected void onPostExecute(String result) {
-            super.onPostExecute(result);
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
         }
 
+        @Override
+        protected void onPostExecute(String respuesta) {
+            super.onPostExecute(respuesta);
+            pdia.dismiss();
+            if (respuesta != null) {
+                if (respuesta.startsWith("OK")) {
+                    Intent a = new Intent(ConexActivity.this, Servicio.class);
+                    startActivity(a);//Realizar la transición intent con identificador a.
+                }//Fin del if respuesta.startsWith.
+                if(respuesta.startsWith("ERROR")){
+                    Intent b = new Intent(ConexActivity.this, MainActivity.class);
+                    startActivity(b);//Realizar la transición intent con identificador a.
+                }//Fin del if respuesta.startsWith.
+            }//Fin del if que comprueba que el result no es nulo.
+        }//Fin onPostExecute.
     }//Fin AsynTask.
-
 }//Fin del ConexActivity.

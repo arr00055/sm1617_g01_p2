@@ -11,4 +11,5 @@
     <string name="auth_hint_port">Puerto del Servidor</string>
     <string name="auth_enviar">Enviar</string>
     <string name="conex_greeting">Autenticando.</string>
+    <string name="servicio_hola">Bienvenido.</string>
 </resources>

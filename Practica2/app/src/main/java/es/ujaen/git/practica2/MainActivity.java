@@ -11,6 +11,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.widget.Toast;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -26,25 +27,24 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main); //Pinto el layout relacionado con mi MainActivity.
         //Leo mi preferencia prefs, y si sesionid alberga algo salta el if y compruebo el tiempo, en caso de estar dentro del rango
         //de la Autenticacion lo lanzo a la actividad del servicio, si no, dejo que siga como siempre.
-        SharedPreferences prefs = getSharedPreferences("MisPreferencias", Context.MODE_PRIVATE);
+        SharedPreferences prefs = getSharedPreferences("DatosSesion", Context.MODE_PRIVATE);
         String sesionid = prefs.getString("Sesion","");
+        String expires = prefs.getString("Tiempoexpira","");
 
         if (sesionid.length()>0){
             //El usuario ya tiene algo guardado.
-            String expires = prefs.getString("Tiempoexpira","");
             long fecha = System.currentTimeMillis()-3600000;
             SimpleDateFormat dt1 = new SimpleDateFormat("yyyy-MM-dd-H-m-s");
             try{
                 Date iniciosesion = dt1.parse(expires);
-                   long t=iniciosesion.getTime();
+                long t=iniciosesion.getTime();
                     if(t > fecha){
-                    Intent a = new Intent(this, Servicio.class);
-                    startActivity(a);//Realizar la transición intent con identificador i.
-                   }
+                        Intent a = new Intent(this, Servicio.class);
+                        startActivity(a);//Realizar la transición intent con identificador i.
+                   }//Fin if comprobación de si aun no paso tiempo de sesion.
                    }catch(ParseException p){
-                                            }
-        }
-
+                                            }//Fin del Catch.
+        }//Fin if que comprueba sesionid.
 
         FragmentManager fm = getSupportFragmentManager();//Obtener la instancia del administrador de fragmentos.
         FragmentTransaction ft = fm.beginTransaction();  //Creo una nueva transacción.
