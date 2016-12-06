@@ -15,27 +15,22 @@ import android.widget.Toast;
  * @param *ARG_PARAM1 primer  parámetro.
  * @param *ARG_PARAM2 segundo parámetro.
  * @param *ARG_PARAM3 tercer  parámetro.
- * @param *ARG_PARAM4 cuarto  parámetro.
- *
  */
 public class AuthFragment extends Fragment {
     // El fragmento inicializa los parámetros.
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private static final String ARG_PARAM3 = "param3";
-    private static final String ARG_PARAM4 = "param4";
 
     //Renombrar y cambiar los tipos de los parámetros.
     private String mUser="";
     private String mPass="";
     private String mIP="";
-    private String mPort="";
 
     //Se inicializan los editables.
     private EditText mEditUser=null;
     private EditText mEditPass=null;
     private EditText mEditIP=null;
-    private EditText mEditPort=null;
 
     //Constructor requerido por el fragmento.
     public AuthFragment() {
@@ -47,16 +42,14 @@ public class AuthFragment extends Fragment {
      * @param *param1 user.
      * @param *param2 pass.
      * @param *param3 ip.
-     * @param *param4 port.
      * @return una nueva instancia de fragment AuthFragment.
      */
-    public static AuthFragment newInstance(String user, String pass, String ip, String port) {
+    public static AuthFragment newInstance(String user, String pass, String ip) {
         AuthFragment fragment = new AuthFragment();
         Bundle args = new Bundle();                 //Creamos args de tipo Bundle como nuevo Bundle.
         args.putString(ARG_PARAM1, user);           //Guardamos en args una cadena con los parámetros
         args.putString(ARG_PARAM2, pass);           //que colocamos como una cadena string.
         args.putString(ARG_PARAM3, ip);
-        args.putString(ARG_PARAM4, port);
         fragment.setArguments(args);                //Guardamos el bundle args con las cadenas en fragment.
         return fragment;
     }//Fin nueva instancia.
@@ -69,7 +62,6 @@ public class AuthFragment extends Fragment {
             mUser = getArguments().getString(ARG_PARAM1); //Obtengo cada una de las cadenas de args.
             mPass = getArguments().getString(ARG_PARAM2);
             mIP   = getArguments().getString(ARG_PARAM3);
-            mPort = getArguments().getString(ARG_PARAM4);
         }//Fin If.
     }//Fin de OnCreate.
 
@@ -86,12 +78,10 @@ public class AuthFragment extends Fragment {
         mEditUser = (EditText)fragmento.findViewById(R.id.auth_edit_user); //Busco cada EditText por su id en el layout y
         mEditPass = (EditText)fragmento.findViewById(R.id.auth_edit_pass); //los guardo en las variables tipo editables que
         mEditIP   = (EditText)fragmento.findViewById(R.id.auth_edit_ip);   //he inicializado arriba.
-        mEditPort = (EditText)fragmento.findViewById(R.id.auth_edit_port);
 
         mEditUser.setText(mUser);
         mEditPass.setText(mPass);
         mEditIP.setText(mIP);
-        mEditPort.setText(mPort);
 
         Button boton = (Button)fragmento.findViewById(R.id.auth_button_send); //Busco el botón por su Id y los formateo.
 
@@ -101,15 +91,12 @@ public class AuthFragment extends Fragment {
                 String user   = mEditUser.getText().toString(); //Convierto el editable de EditUser en un string user.
                 String pass   = mEditPass.getText().toString(); //Convierto el editable de EditUser en un string pass.
                 String ip     = mEditIP.getText().toString();   //Convierto el editable de EditUser en un string ip.
-                String port1  = mEditPort.getText().toString(); //Convierto el editable de EditUser en un string port1
-                int port      = Integer.parseInt(port1);        //Paso de un string port1 a un entero port.
-                Autenticacion datos = new Autenticacion(user,pass,ip,port);//Introduzco las variables en la clase Autenticacion al instanciarla.
+                Autenticacion datos = new Autenticacion(user,pass,ip);//Introduzco las variables en la clase Autenticacion al instanciarla.
                 //Utilizo un intent para realizar transición de fragmento a Actividad pasando los datos para ello.
                     Intent i = new Intent(getActivity(), ConexActivity.class);//Tomo el fragmento actual, la actividad a la que quiero ir.
                     i.putExtra("usuario", user);//paso el valor de user con id usuario.
                     i.putExtra("password", pass);//paso el valor de pass con id password.
                     i.putExtra("direccionIp", ip);//paso el valor de ip con id direccionIp.
-                    i.putExtra("puerto", port);//paso el valor de port con id puerto.
                     startActivity(i);//Realizar la transición intent con identificador i.
             }//Fin del método click.
         });//Fin de la escucha del evento click.

@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
             try{
                 Date iniciosesion = dt1.parse(expires);
                 long t=iniciosesion.getTime();
-                    if(t > fecha){
+                    if(t > fecha){ //Mientras no haya expirado el tiempo de sesion.
                         Intent a = new Intent(this, Servicio.class);
                         startActivity(a);//Realizar la transición intent con identificador i.
                    }//Fin if comprobación de si aun no paso tiempo de sesion.
@@ -52,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
         if(f==null)//Compruebo si el fragmento encontrado por la Id es null.
         {
-            AuthFragment au = AuthFragment.newInstance("","","","");//Creo una nueva instancia au de tipo AuthFragment.
+            AuthFragment au = AuthFragment.newInstance("","","");//Creo una nueva instancia au de tipo AuthFragment.
             ft.add(R.id.main_frame, au);//El método add() recibe dos parámetros. El primero es el identificador del contenedor donde insertaremos el fragmento. El segundo parámetro es la instancia del fragmento que queremos añadir.
             ft.addToBackStack(null);
         }//Fin del if.

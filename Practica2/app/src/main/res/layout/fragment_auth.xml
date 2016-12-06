@@ -63,31 +63,6 @@
         android:layout_marginStart="10dp"
         android:hint="@string/auth_hint_ip" />
 
-    <LinearLayout
-        android:orientation="horizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/auth_edit_ip"
-        android:layout_alignStart="@+id/auth_label_ip"
-        android:id="@+id/linearLayout">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="@string/auth_port"
-            android:textColor="@android:color/black"
-            android:id="@+id/auth_label_port" />
-
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/auth_edit_port"
-            android:layout_marginStart="65dp"
-            android:hint="@string/auth_hint_port"
-            android:inputType="number" />
-    </LinearLayout>
-
     <Button
         android:text="@string/auth_enviar"
         android:drawableLeft="@drawable/silverware_variant"
@@ -97,8 +72,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/auth_button_send"
-        android:layout_below="@+id/linearLayout"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="12dp" />
+        android:layout_marginTop="37dp"
+        android:layout_below="@+id/auth_edit_ip"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>

@@ -2,29 +2,27 @@ package es.ujaen.git.practica2;
 
 /**La clase Autenticacion será la encargada de guardar los datos del usuario.
  * la clase es declarada como public siendo una pieza de código visible en todos los niveles.
+ * Se ha cambiado esta clase quitando el puerto, el cual se ha introducido como una constante dentro de la clase que maneja la hebra
+ * asincrona en la clase ConexActivity.
  */
 public class Autenticacion{
     //Atributos de la clase Autenticacion.
-    public static final int SERVICE_PORT=6000;
+
     //Con el modificador protected solo las clases que se encuentren en el mismo paquete pueden ver y acceder a estos atributos.
     protected String mUser="";
     protected String mPass="";
     protected String mIP="";
-    protected int    mPort=SERVICE_PORT;
-
     /**
      *Constructor de la clase Autenticacion.
      * @param user variable donde se guarda el nombre o nick del usuario.
      * @param pass variable donde se guarda la contraseña del usuario.
      * @param ip   variable donde se guarda la dirección Ip del usuario.
-     * @param port variable donde se guarda el puerto del usuario.
      */
-    public Autenticacion(String user,String pass,String ip, int port){
+    public Autenticacion(String user,String pass,String ip){
 
         mUser=user;
         mPass=pass;
         mIP=ip;
-        mPort=port;
 
     }//Fin del constructor de la clase Autenticacion.
  /**
@@ -66,18 +64,4 @@ public class Autenticacion{
     public void setIP(String ip){
         mIP=ip;
     }
-    /**
-     *  Método getPort.
-     *  @return mPort.
-     */
-    public int getPort(){
-        return mPort;
-    }
-    /**
-     *  Método setPort.
-     */
-    public void setPort(int port){
-        mPort=port;
-    }
-
 }//Fin de la clase Autenticacion.
