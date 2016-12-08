@@ -14,6 +14,7 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -96,7 +97,6 @@ public class ConexActivity extends AppCompatActivity {
                 //Se crea el socket TCP y me conecto al servidor con la direccion TCP y el puerto.
                 cliente = new Socket();
                 cliente.connect(direccion);
-
                 //Se leen los datos del buffer de entrada bis y se escriben los datos en el buffer de salida os.
                 BufferedReader bis = new BufferedReader(new InputStreamReader(cliente.getInputStream()));
                 OutputStream os = cliente.getOutputStream();
@@ -186,10 +186,12 @@ public class ConexActivity extends AppCompatActivity {
             pdia.dismiss();//Cierro el pdia.
             if (respuesta != null) {
                 if (respuesta.startsWith("OK")) { //Si la respuesta comienza con OK, es que la autenticacion fue correctamente.
+                    Toast.makeText(getApplicationContext(), "Autenticacion completada, bienvenido.", Toast.LENGTH_SHORT).show();
                     Intent a = new Intent(ConexActivity.this, Servicio.class);
                     startActivity(a);//Realizar la transición intent con identificador a.
                 }//Fin del if respuesta.startsWith.
                 if(respuesta.startsWith("ERROR")){ //Si la respuesta comienza con ERROR, es que la autenticion no se ha realizado.
+                    Toast.makeText(getApplicationContext(), "Clave y/o usuario incorrecto, inténtelo de nuevo.", Toast.LENGTH_SHORT).show();
                     Intent b = new Intent(ConexActivity.this, MainActivity.class);
                     startActivity(b);//Realizar la transición intent con identificador a.
                 }//Fin del if respuesta.startsWith.
