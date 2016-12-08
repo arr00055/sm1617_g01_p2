@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
                 Date iniciosesion = dt1.parse(expires);
                 long t=iniciosesion.getTime();
                     if(t > fecha){ //Mientras no haya expirado el tiempo de sesion.
+                        Toast.makeText(getApplicationContext(), "Bienvenido de nuevo, tu sesión aun no ha expirado.", Toast.LENGTH_SHORT).show(); //Muestro un mensaje al usuario, para avisarle de que aun sigue autenticado.
                         Intent a = new Intent(this, Servicio.class);
                         startActivity(a);//Realizar la transición intent con identificador i.
                    }//Fin if comprobación de si aun no paso tiempo de sesion.
