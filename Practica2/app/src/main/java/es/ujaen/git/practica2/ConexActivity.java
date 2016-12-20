@@ -193,7 +193,7 @@ public class ConexActivity extends AppCompatActivity {
                 if(respuesta.startsWith("ERROR")){ //Si la respuesta comienza con ERROR, es que la autenticion no se ha realizado.
                     Toast.makeText(getApplicationContext(), "Clave y/o usuario incorrecto, inténtelo de nuevo.", Toast.LENGTH_SHORT).show();
                     Intent b = new Intent(ConexActivity.this, MainActivity.class);
-                    startActivity(b);//Realizar la transición intent con identificador a.
+                    startActivity(b);//Realizar la transición intent con identificador b.
                 }//Fin del if respuesta.startsWith.
             }//Fin del if que comprueba que el result no es nulo.
         }//Fin onPostExecute.

@@ -12,4 +12,7 @@
     <string name="auth_enviar">Enviar</string>
     <string name="conex_greeting">Autenticando.</string>
     <string name="servicio_hola">Bienvenido.</string>
+    <string name="contstock">Control de Stock</string>
+    <string name="botonstock">Stock</string>
+    <string name="cabeceraserv">Servicios</string>
 </resources>
