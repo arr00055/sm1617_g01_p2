@@ -46,5 +46,17 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"
         android:id="@+id/cabeceraserv" />
+    <Button
+        android:text="@string/frang_info"
+        android:drawableLeft="@drawable/information_variant"
+        android:textColor="@android:color/black"
+        android:backgroundTint="@color/colorPrimaryDark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="14dp"
+        android:layout_marginBottom="58dp"
+        android:id="@+id/botoninfo" />
 
 </RelativeLayout>

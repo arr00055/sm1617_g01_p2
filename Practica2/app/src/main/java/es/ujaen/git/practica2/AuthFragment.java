@@ -86,20 +86,20 @@ public class AuthFragment extends Fragment {
         Button boton = (Button)fragmento.findViewById(R.id.auth_button_send); //Busco el botón por su Id y los formateo.
 
         boton.setOnClickListener(new View.OnClickListener() {  //Como estoy en el fragment estoy atento al evento click de este.
-            @Override
-            public void onClick(View v) { //Cuando pulso el botón.
-                String user   = mEditUser.getText().toString(); //Convierto el editable de EditUser en un string user.
-                String pass   = mEditPass.getText().toString(); //Convierto el editable de EditUser en un string pass.
-                String ip     = mEditIP.getText().toString();   //Convierto el editable de EditUser en un string ip.
-                Autenticacion datos = new Autenticacion(user,pass,ip);//Introduzco las variables en la clase Autenticacion al instanciarla.
-                //Utilizo un intent para realizar transición de fragmento a Actividad pasando los datos para ello.
-                    Intent i = new Intent(getActivity(), ConexActivity.class);//Tomo el fragmento actual, la actividad a la que quiero ir.
-                    i.putExtra("usuario", user);//paso el valor de user con id usuario.
-                    i.putExtra("password", pass);//paso el valor de pass con id password.
-                    i.putExtra("direccionIp", ip);//paso el valor de ip con id direccionIp.
-                    startActivity(i);//Realizar la transición intent con identificador i.
-            }//Fin del método click.
-        });//Fin de la escucha del evento click.
+        @Override
+        public void onClick(View v) { //Cuando pulso el botón.
+            String user   = mEditUser.getText().toString(); //Convierto el editable de EditUser en un string user.
+            String pass   = mEditPass.getText().toString(); //Convierto el editable de EditUser en un string pass.
+            String ip     = mEditIP.getText().toString();   //Convierto el editable de EditUser en un string ip.
+            Autenticacion datos = new Autenticacion(user,pass,ip);//Introduzco las variables en la clase Autenticacion al instanciarla.
+            //Utilizo un intent para realizar transición de fragmento a Actividad pasando los datos para ello.
+            Intent i = new Intent(getActivity(), ConexActivity.class);//Tomo el fragmento actual, la actividad a la que quiero ir.
+            i.putExtra("usuario", user);//paso el valor de user con id usuario.
+            i.putExtra("password", pass);//paso el valor de pass con id password.
+            i.putExtra("direccionIp", ip);//paso el valor de ip con id direccionIp.
+            startActivity(i);//Realizar la transición intent con identificador i.
+        }//Fin del método click.
+    });//Fin de la escucha del evento click.
 
         return fragmento;
 
