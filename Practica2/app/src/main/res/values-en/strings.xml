@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">HosteRed</string>
+    <string name="auth_enviar">Send</string>
+    <string name="auth_hint_ip">Server Address</string>
+    <string name="auth_hint_pass">Put Password</string>
+    <string name="auth_hint_port">Server Port</string>
+    <string name="auth_hint_user">Put User</string>
+    <string name="auth_ip">IP Address:</string>
+    <string name="auth_name">Name:</string>
+    <string name="auth_pass">Password:</string>
+    <string name="auth_port">Port:</string>
+    <string name="botonstock">Stock</string>
+    <string name="cabeceraserv">Service</string>
+    <string name="conex_greeting">Authenticate</string>
+    <string name="contstock">Stock Control</string>
+    <string name="frang_info">About</string>
+    <string name="info_autores">Author1: Alejandro Romo Rivero</string>
+    <string name="info_autores2">Author2: Sergio Garcia Solano</string>
+    <string name="servicio_hola">Welcome</string>
+    <string name="info_uni">Technical college of Linares</string>
+</resources>
